@@ -9,48 +9,61 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
+       
+        ZStack {
+            Color(.systemMint)
+                .ignoresSafeArea()
+            
+            VStack(alignment: .leading, spacing: 20.0) {
+               
+                
+                Image("niagarafalls")
+                    .resizable()
+                    .cornerRadius(20)
+                    .aspectRatio(contentMode: .fit)
+                
+                HStack{
+                    Text("Niagara Falls")
+                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                    
+                    Spacer()
+                    
+                    VStack{
+                        
+                        HStack{
+                            Image(systemName: "star")
+                            Image(systemName: "star")
+                            Image(systemName: "star")
+                            Image(systemName: "star")
+                            Image(systemName: "star.leadinghalf.filled")
+                        }
+                        Text("(Reviews 361)")
+                    }.foregroundColor(Color.orange).font(.caption)
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                
+                Text("Come Visit Niagara falls")
+                    .font(/*@START_MENU_TOKEN@*/.footnote/*@END_MENU_TOKEN@*/)
+                    .multilineTextAlignment(.center)
+                
+                HStack{
+                    Spacer()
+                    Image(systemName: "fork.knife")
+                    Image(systemName: "binoculars")
                 }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
+                .foregroundColor(Color.gray)
+                .font(.caption)
+                
             }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+        .padding()
+        .background(Rectangle()
+            .foregroundColor(.white)
+            .cornerRadius(15)
+            .shadow(radius: 15))
+        .padding()
+        
         }
     }
 }
